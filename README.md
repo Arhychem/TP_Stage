@@ -10,7 +10,10 @@ Ouvrir VMWare Workstation en mode sudo et configurer un swap pour les machines v
 
 ## Partie 2: Développement python
 ### Problèmes rencontrés:
-''' Traceback (most recent call last):
+##### L'exécution du script produit l'erreur suivante:
+
+'''
+ Traceback (most recent call last):
   File "run1.py", line 62, in <module>
     create_dummy_vm(vmName, si, vmfolder, resource_pool,
   File "run1.py", line 33, in create_dummy_vm
