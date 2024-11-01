@@ -26,10 +26,13 @@ def create_dummy_vm(vm_name, si, vm_folder, resource_pool,
 
     config = vim.vm.ConfigSpec(name=vm_name, memoryMB=128, numCPUs=1,
                            files=vmx_file, guestId='otherGuest',  
-                           version='vmx-14') 
+                           version='vmx-17') 
 
     print("Creating VM {}...".format(vm_name))
-    task = vm_folder.CreateVM_Task(config=config, pool=resource_pool)
+    try:
+        task = vm_folder.CreateVM_Task(config=config, pool=resource_pool)
+    except :
+        print("error")
     tasks.wait_for_tasks(si, [task])
 
 # On charge le JSON
@@ -50,7 +53,7 @@ disableSslCertValidation=True
 si = SmartConnect(host=hostname, user=username, pwd=password, disableSslCertValidation=True)
 print("Connecté à l'hôte ESXi")
 content = si.RetrieveContent()
-vmfolder = pchelper.get_obj(content, [vim.Folder], "datastore")
+vmfolder = pchelper.get_obj(content, [vim.Folder], "host")
 
 #création de la ressourcePool
 resource_pool = pchelper.get_obj(content, [vim.ResourcePool], "Resources")
