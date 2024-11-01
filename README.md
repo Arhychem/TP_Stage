@@ -28,3 +28,5 @@ pyVmomi.VmomiSupport.NotSupported: (vmodl.fault.NotSupported) {
    faultMessage = (vmodl.LocalizableMessage) []
 }
 '''
+### Démarche:
+Modification des paramètres RessourcePool et folder puis vérification
