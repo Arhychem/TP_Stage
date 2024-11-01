@@ -24,7 +24,7 @@ def create_dummy_vm(vm_name, si, vm_folder, resource_pool,
                                suspendDirectory=None,
                                vmPathName=datastore_path)
 
-    config = vim.vm.ConfigSpec(name=vm_name, memoryMB=128, numCPUs=1,
+    config = vim.vm.ConfigSpec(name=vm_name, memoryMB=64, numCPUs=1,
                            files=vmx_file, guestId='otherGuest',  
                            version='vmx-17') 
 
@@ -41,6 +41,7 @@ with open('config.json') as json_config_file:
 
 vmName = config['vm_name']
 numInstances = config['number_of_instances']
+datastore = config['datastore']
 
 # Détails de connexion ESXi
 hostname = "192.168.72.53"
@@ -61,9 +62,10 @@ resource_pool = pchelper.get_obj(content, [vim.ResourcePool], "Resources")
     
 #On déploie toute les vM
 for i in range(numInstances):
+    print(i)
     instance_name = f"{vmName}_{i+1}"
     create_dummy_vm(vmName, si, vmfolder, resource_pool,
-                    "datastore1")
+                    datastore)
     print(f"Déployé {instance_name}")
 
 # Déconnexion de ESXi

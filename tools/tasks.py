@@ -38,10 +38,13 @@ def wait_for_tasks(si, tasks):
                 for obj_set in filter_set.objectSet:
                     task = obj_set.obj
                     for change in obj_set.changeSet:
+                        print("line 41 change")
                         if change.name == 'info':
                             state = change.val.state
+                            print("line 44 continue")
                         elif change.name == 'info.state':
                             state = change.val
+                            print("line 47 end")
                         else:
                             continue
 
