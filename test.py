@@ -2,12 +2,8 @@ import json
 from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
 from vm_creation import createAVm
+from functions import DisconnectSi
 
-def DisconnectSi(si:vim.ServiceInstance,container:vim.ServiceInstanceContent):
-    container.Destroy()
-    Disconnect(si)
-    print ("Disconnected")
-    
 with open('key.json') as json_auth_file:
     auth = json.load(json_auth_file)
 

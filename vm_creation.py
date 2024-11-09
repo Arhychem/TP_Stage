@@ -8,10 +8,10 @@ def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,des
     """ 
     Déterminons le vm_folder correspondant au destinationHost
     ## Étapes:
-    destinationHost.parent renvoie un ComputeResource
-    destinationHost.parent.parent renvoie un Folder (hostFolder)
-    destinationHost.parent.parent.parent renvoie le datacenter correspondant
-    destinationHost.parent.parent.parent.vmFolder renvoie le vmFolder du datacenter
+        ->destinationHost.parent renvoie un ComputeResource
+        ->destinationHost.parent.parent renvoie un Folder (hostFolder)
+        ->destinationHost.parent.parent.parent renvoie le datacenter correspondant
+        ->destinationHost.parent.parent.parent.vmFolder renvoie le vmFolder du datacenter
     """
     vm_folder:vim.Folder=destinationHost.parent.parent.parent.vmFolder
     """ 

@@ -1,5 +1,4 @@
 {
-    "vm_name":"tinyWMTest",
-    "number_of_instances":2,
-    "datastore":"datastore1"
+    "vm_Base_name":"tinyWMTest",
+    "number_of_instances":2
 }

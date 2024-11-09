@@ -2,13 +2,8 @@ import json
 from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
 from cdrom_attach import cdrom,powerOnVm
-
-def DisconnectSi(si:vim.ServiceInstance,container:vim.ServiceInstanceContent):
-    if(container is not None):
-        container.Destroy()
-    Disconnect(si)
-    print ("Disconnected")
-    
+from functions import DisconnectSi
+  
 with open('key.json') as json_auth_file:
     auth = json.load(json_auth_file)
 

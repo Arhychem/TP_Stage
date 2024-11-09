@@ -1,16 +1,9 @@
 from pyVmomi import vim,vmodl
 from pyVim.connect import SmartConnect, Disconnect
 from pyVim.task import WaitForTask
+from functions import getDatacenter
 
-
-#Retourne le datacenter ayant pour nom le contenu de la variable name
-def getDatacenter(content:vim.ServiceInstanceContent,name:str):
-    for datacenter in content.rootFolder.childEntity:
-        if datacenter.name==name: # "ha-datacenter" par exemple
-            return datacenter
-        else:
-            raise Exception(f"failed to find {name} datacenter")
-        
+ 
 """ 
 # Retourne le premier cd_rom trouvé
 # J'ai remarqué 2 types de scsiLun (SCSI logical units ) : les "disk" et les "cd-rom"
@@ -104,7 +97,10 @@ def cdrom(si:vim.ServiceInstance,vm_name:str,iso_path:str,datacenterName:str):
     iso = iso_path
     
     """ 
-    
+    # Génération de l'Iso, 
+    # génération d'une nouvelle configuration prenant en compte l'iso et 
+    # reconfiguration de la machine virtuelle
+    # On génère un backing pour le cd_rom
     """
     if iso is not None:
         device_spec = vim.vm.device.VirtualDeviceSpec()
@@ -127,6 +123,7 @@ def cdrom(si:vim.ServiceInstance,vm_name:str,iso_path:str,datacenterName:str):
         cdrom = next(filter(lambda x: type(x.backing) == type(backing) and
                      x.backing.fileName == iso, cdroms))
         # print("iso, cd_rom",cdrom)
+        print("Chargement de l'iso terminé") 
     else:
         print('Skipping ISO test as no iso provided.')  
         
@@ -136,7 +133,7 @@ def cdrom(si:vim.ServiceInstance,vm_name:str,iso_path:str,datacenterName:str):
         device_spec.operation = cdrom_operation.remove
         config_spec = vim.vm.ConfigSpec(deviceChange=[device_spec])
         WaitForTask(vm.Reconfigure(config_spec))
-        print("Chargement de l'iso terminé") """
+        """
         
 def powerOnVm(si:vim.ServiceInstance,vm_name:str,datacenterName:str):
     content = si.RetrieveContent()
