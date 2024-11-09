@@ -1,7 +1,6 @@
 import sys
 from pyVmomi import vim
 from pyVim.task import WaitForTask
-from tools import cli, pchelper, service_instance
 
 #def createAVm(content:vim.ServiceInstanceContent,datacenterName:str,destinationHost:vim.HostSystem,datastoreName:str,guestName:str,description:str,resPool:vim.ResourcePool):
 def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,description:str,resPool:vim.ResourcePool):
@@ -24,7 +23,7 @@ def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,des
             # Étant donné qu'il n'y a qu'un seul datacenter, on aurait pu juste le passer en paramètre et l'utiliser...
             break
         else: 
-            print (f"Datacenter {datacenterName} not found");
+            print (f"Datacenter {datacenterName} not found")
             sys.exit()
     """
     try:
