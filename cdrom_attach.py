@@ -1,4 +1,4 @@
-from pyVmomi import vim
+from pyVmomi import vim,vmodl
 from pyVim.connect import SmartConnect, Disconnect
 from pyVim.task import WaitForTask
 
@@ -122,18 +122,34 @@ def cdrom(si:vim.ServiceInstance,vm_name:str,iso_path:str,datacenterName:str):
         WaitForTask(vm.Reconfigure(config_spec))
 
         cdroms = getVirtualCdroms(vm)
-        print(backing)
-        print("cdroms",cdroms)
+        # print(backing)
+        # print("cdroms",cdroms)
         cdrom = next(filter(lambda x: type(x.backing) == type(backing) and
                      x.backing.fileName == iso, cdroms))
-        print("iso, cd_rom",cdrom)
+        # print("iso, cd_rom",cdrom)
     else:
         print('Skipping ISO test as no iso provided.')  
         
-    if cdrom is not None:  # L'opération est terminée, on enlève le cd_rom
+    """ if cdrom is not None:  # L'opération est terminée, on enlève le cd_rom
         device_spec = vim.vm.device.VirtualDeviceSpec()
         device_spec.device = cdrom
         device_spec.operation = cdrom_operation.remove
         config_spec = vim.vm.ConfigSpec(deviceChange=[device_spec])
         WaitForTask(vm.Reconfigure(config_spec))
-        print("Chargement de l'iso terminé")
+        print("Chargement de l'iso terminé") """
+        
+def powerOnVm(si:vim.ServiceInstance,vm_name:str,datacenterName:str):
+    content = si.RetrieveContent()
+    datacenter = getDatacenter(content,datacenterName)
+    #On cherche la machine virtuelle sur laquelle installer l'iso
+    vm = content.searchIndex.FindChild(datacenter.vmFolder,vm_name)
+    if vm is None:
+        raise Exception(f'Failed to find VM {vm_name} in datacenter {datacenterName}')
+    try:
+        vm.PowerOn()
+        print(f"Machine virtuelle {vm_name} démarée")
+    except vmodl.MethodFault as error:
+        print("Caught vmodl fault : " + error.msg)
+    except Exception as error:
+        print("Caught Exception : " + str(error))
+    return

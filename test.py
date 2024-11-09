@@ -3,7 +3,8 @@ from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
 from vm_creation import createAVm
 
-def DisconnectSi(si):
+def DisconnectSi(si:vim.ServiceInstance,container:vim.ServiceInstanceContent):
+    container.Destroy()
     Disconnect(si)
     print ("Disconnected")
     
@@ -48,5 +49,5 @@ print("destinationHost:",destinationHost)
 print("number of host cpu:",numberOfCPU)
 print("available host ram:",availableRam,"mo")
 createAVm(destinationHost=destinationHost,datastoreName=datastoreName,guestName="vm_max",description="vm created for the question 9.1 od the subject",resPool=vmResourcePool)
-DisconnectSi(si)
+DisconnectSi(si,container)
 
