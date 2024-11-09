@@ -1,6 +1,7 @@
 import json
 from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
+from cdrom_attach import cdrom
 
 def DisconnectSi(si):
     Disconnect(si)
@@ -23,4 +24,8 @@ except Exception as err:
 print("Connected")
 content = si.RetrieveContent()
 datacenter1 = content.rootFolder.childEntity[0]
-print(type(content))
+datastoreName=datacenter1.datastore[0].name
+
+isoPath = '['+datastoreName+'] test/Core-5.4.iso'
+print("Iso Path:",isoPath)
+cdrom(si,vm_name="vm_max",iso_path=isoPath,datacenterName="ha-datacenter")
