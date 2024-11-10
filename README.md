@@ -33,6 +33,45 @@ Pour lancer le déploiement exécuter la commande suivante dans un terminal : <b
  python ova_deployement.py 
 </code>
 ### <u>Question 8</u>
+<strong>Le clonage de la machine virtuelle lève l'exception suivante: </strong>
+```
+(vmodl.fault.NotSupported) {
+   dynamicType = <unset>,
+   dynamicProperty = (vmodl.DynamicProperty) [],
+   msg = 'The operation is not supported on the object.',
+   faultCause = <unset>,
+   faultMessage = (vmodl.LocalizableMessage) []
+}
+```
+<strong>Autre approche: transformer la machine virtuelle en template avec la méthode MarkAsTemplate et cloner celui-ci</strong><br>
+```python
+if not template.config.template:
+        print(f"VM {vm_name} is not a template. Converting to template...")
+        task = template.MarkAsTemplate()
+        wait_for_task(task)
+```
+<strong>Malheureusement même cette provoque une erreur: <strong>
+```
+Traceback (most recent call last):
+  File "vm_cloning.py", line 89, in <module>
+    vm_cloning(content=content,vm_name="tinyVM",datacenterName="ha-datacenter",clusterName="",powerOn=False)
+  File "vm_cloning.py", line 81, in vm_cloning
+    task = template.MarkAsTemplate()
+  File "/home/maxime/.local/lib/python3.8/site-packages/pyVmomi/VmomiSupport.py", line 614, in <lambda>
+    self.f(*(self.args + (obj,) + args), **kwargs)
+  File "/home/maxime/.local/lib/python3.8/site-packages/pyVmomi/VmomiSupport.py", line 387, in _InvokeMethod
+    return self._stub.InvokeMethod(self, info, args)
+  File "/home/maxime/.local/lib/python3.8/site-packages/pyVmomi/SoapAdapter.py", line 1472, in InvokeMethod
+    raise obj  # pylint: disable-msg=E0702
+pyVmomi.VmomiSupport.NotSupported: (vmodl.fault.NotSupported) {
+   dynamicType = <unset>,
+   dynamicProperty = (vmodl.DynamicProperty) [],
+   msg = 'The operation is not supported on the object.',
+   faultCause = <unset>,
+   faultMessage = (vmodl.LocalizableMessage) []
+}
+```
+signifiant que l'opération n'est pas suportésur cet objet (la VM)
 
 ### <u>Question 9</u>
 #### <u>Question 9.1:</u> Ici, il nous était demandé de créer une machine virtuelle vide avec des caractéristiques définies
@@ -58,9 +97,3 @@ vm_creation_attachement_config.json #Ce fichier contient les informations de con
 ```
 ##### <u>Exécution du code</u>
 Dans un terminal, tapper la commande `python test2.py`
-### Problèmes rencontrés:
-##### L'exécution du script produit l'erreur suivante:
-
-
-### Démarche:
-Modification des paramètres RessourcePool et folder puis vérification

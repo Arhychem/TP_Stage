@@ -86,5 +86,5 @@ def vm_cloning(
     wait_for_task(task)
     return 
 
-vm_cloning(content=content,vm_name="vm_max",datacenterName="ha-datacenter",clusterName="",powerOn=False)
+vm_cloning(content=content,vm_name="tinyVM",datacenterName="ha-datacenter",clusterName="",powerOn=False)
 DisconnectSi(si,None)
