@@ -33,10 +33,9 @@ print("Connected")
 content = si.RetrieveContent()
 datacenter = getDatacenter(content,"ha-datacenter")
 datastore=datacenter.datastore[0]
-datastoreName=datacenter.datastore[0].name
 computeRes = datacenter.hostFolder.childEntity[0]
 vmResourcePool = computeRes.resourcePool
-destinationHost = computeRes.host[0].name
+destinationHost = computeRes.host[0]
 
 
 def deployOva(resourcePool:vim.ResourcePool,datastore:vim.Datastore,host:str,ovaPath:str):
@@ -60,7 +59,8 @@ def deployOva(resourcePool:vim.ResourcePool,datastore:vim.Datastore,host:str,ova
 
     ovf_handle.set_spec(cisr)
 
-    lease = resourcePool.ImportVApp(cisr.importSpec, datacenter.vmFolder)
+    lease = resourcePool.ImportVApp(cisr.importSpec, datacenter.vmFolder,destinationHost)
+    
     while lease.state == vim.HttpNfcLease.State.initializing:
         print("Waiting for lease to be ready...")
         time.sleep(1)
@@ -73,6 +73,10 @@ def deployOva(resourcePool:vim.ResourcePool,datastore:vim.Datastore,host:str,ova
 
     print("Starting deploy...")
     return ovf_handle.upload_disks(lease, host)
-result = deployOva(resourcePool=vmResourcePool,datastore=datastore,
-                   host=host,ovaPath="/media/maxime/MAXIME/5GI The Last/Cloud/tinyVM.ova")
-print(result)
+for i in range(numInstances):
+   # deployOva(resourcePool=vmResourcePool,datastore=datastore,
+                #    host=host,ovaPath="http://menaud.fr/Cours/Cloud/TP/PS1/OVA-Linux/tinyVM.ova")
+    print(f"Déploiement de la machine {i}")
+    deployOva(resourcePool=vmResourcePool,datastore=datastore,
+              host=host,ovaPath="/media/maxime/MAXIME/5GI The Last/Cloud/tinyVM.ova")
+DisconnectSi(si,None)

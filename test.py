@@ -20,7 +20,6 @@ except Exception as err:
     print("Erreur de connexion",err)
 print("Connected")
 content = si.RetrieveContent()
-print(type(content))
 
 #On récupère le premier datacenter
 datacenter1 = content.rootFolder.childEntity[0]
