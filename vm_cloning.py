@@ -29,19 +29,24 @@ def vm_cloning(
     datastore = getManagedObject(content,[vim.Datastore],datastoreName)
     cluster = getManagedObject(content, [vim.ClusterComputeResource], clusterName)
     if not cluster:
+        print(f"No cluster found. Using default resource pool for VM {vm_name}")
         cluster = getManagedObject(content, [vim.ResourcePool])
+
     resourcePool = getManagedObject(content,[vim.ResourcePool],resourcePoolName)
     if not resourcePoolName:
         resourcePool = cluster.resourcePool
         
     vmconf = vim.vm.ConfigSpec()
     template = getManagedObject(content,[vim.VirtualMachine],vm_name)
-    
+    if not template:
+        print(f"VM {vm_name} not found.")
+        return
+
     #Cette partie ne va probablement pas s'exécuter étant donné qu'il n'y a pas de cluster
     if datastoreClusterName:
+        pod = getManagedObject(content, [vim.StoragePod], datastoreClusterName)
         podsel = vim.storageDrs.PodSelectionSpec()
         podsel.storagePod = pod
-        pod = getManagedObject(content, [vim.StoragePod], datastoreClusterName)
         storagespec = vim.storageDrs.StoragePlacementSpec()
         storagespec.podSelectionSpec = podsel
         storagespec.type = 'create'
@@ -70,6 +75,11 @@ def vm_cloning(
     clonespec.location = relospec
     clonespec.powerOn = powerOn
     print(template)
+
+    if not template.config.template:
+        print(f"VM {vm_name} is not a template. Converting to template...")
+        task = template.MarkAsTemplate()
+        wait_for_task(task)
 
     print(f"clonage de la VM {vm_name}...")
     task = template.Clone(folder=destinationFolder, name=f"{vm_name}_clone", spec=clonespec)
