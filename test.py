@@ -50,6 +50,6 @@ print("destinationHost:",destinationHost)
 print("number of host cpu:",numberOfCPU)
 print("available host ram:",availableRam,"mo")
 createAVm(destinationHost=destinationHost,datastoreName=datastoreName,guestName="vm_max",description="vm created for the question 9.1 od the subject",
-          resPool=vmResourcePool,vmRam=int(vmRam),nCpu=int(vmNcpus))
+          resPool=vmResourcePool,vmRam=int(vmRam),nCpu=int(vmNcpus),diskSizeMB=vmDisk)
 DisconnectSi(si,container)
 

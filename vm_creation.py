@@ -2,10 +2,9 @@ import sys
 from pyVmomi import vim
 from pyVim.task import WaitForTask
 
-#def createAVm(content:vim.ServiceInstanceContent,datacenterName:str,destinationHost:vim.HostSystem,datastoreName:str,guestName:str,description:str,resPool:vim.ResourcePool):
 def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,
-              description:str,resPool:vim.ResourcePool,vmRam:int,nCpu:int):
-    config = createConfig(guestName=guestName,description=description,datastoreName=datastoreName,memory=vmRam,numCPUs=nCpu)
+              description:str,resPool:vim.ResourcePool,vmRam:int,nCpu:int,diskSizeMB:int):
+    config = createConfig(guestName=guestName,description=description,datastoreName=datastoreName,memory=vmRam,numCPUs=nCpu,diskSizeMB=diskSizeMB)
     """ 
     Déterminons le vm_folder correspondant au destinationHost
     ## Étapes:
@@ -36,7 +35,7 @@ def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,
         print("VM name %s already exists." % guestName, file=sys.stderr)
     
 
-def createConfig(guestName:str,description:str,datastoreName:str,memory=64,numCPUs=1,guestOS="otherGuest"):
+def createConfig(guestName:str,description:str,datastoreName:str,diskSizeMB:int,memory=64,numCPUs=1,guestOS="otherGuest"):
     config = vim.vm.ConfigSpec()
     config.annotation = description
     config.memoryMB = int(memory)
@@ -46,4 +45,36 @@ def createConfig(guestName:str,description:str,datastoreName:str,memory=64,numCP
     files = vim.vm.FileInfo()
     files.vmPathName = "["+datastoreName+"]"
     config.files = files
+    
+    """ Ajout d'un disque avec une taille prédéfinie """
+    #création d'un VirtualDisk et configuration de celui-ci
+    disk = vim.vm.device.VirtualDisk()
+    disk.key = 0
+    disk.unitNumber = 0
+    disk.capacityInKB = diskSizeMB * 1024   # Convertir le MB en KB
+    disk.backing = vim.vm.device.VirtualDisk.FlatVer2BackingInfo()
+    disk.backing.fileName = "[" + datastoreName + "]"
+    disk.backing.diskMode = "persistent"
+    disk.backing.thinProvisioned = True
+    disk.controllerKey = 1000
+    
+     # Créattion d'un controleur SCSI controller pour le disque
+    controller = vim.vm.device.VirtualLsiLogicController()
+    controller.key = 1000
+    controller.busNumber = 0
+    controller.sharedBus = vim.vm.device.VirtualSCSIController.Sharing.noSharing
+    
+     # Ajout du VirtualDisk et du controleur à config
+    config.deviceChange = [
+        vim.vm.device.VirtualDeviceSpec(
+            operation=vim.vm.device.VirtualDeviceSpec.Operation.add,
+            device=controller
+        ),
+        vim.vm.device.VirtualDeviceSpec(
+            operation=vim.vm.device.VirtualDeviceSpec.Operation.add,
+            fileOperation=vim.vm.device.VirtualDeviceSpec.FileOperation.create, # à préciser, sinon la taille du disque n'est pas prise en compte
+            device=disk
+        )
+    ] 
+    
     return config

@@ -10,11 +10,9 @@ host = auth["host"]
 password = auth["pwd"]
 username = auth["user"]
 
-""" with open('vm_creation_attachement_config.json') as vm_params:
+with open('vm_creation_attachement_config.json') as vm_params:
     params = json.load(vm_params)
-vmRam = params["RAM"]
-vmDisk = params["Disk"]
-vmNcpus = params["nCpus"] """
+isoPath = params["CD-ROM"]
 
 #Connexion à la plateforme ESXi
 
@@ -26,9 +24,9 @@ except Exception as err:
 print("Connected")
 content = si.RetrieveContent()
 datacenter1 = content.rootFolder.childEntity[0]
-datastoreName=datacenter1.datastore[0].name
+# datastoreName=datacenter1.datastore[0].name
 
-isoPath = '['+datastoreName+'] test/Core-5.4.iso'
+# isoPath = '['+datastoreName+'] test/Core-5.4.iso'
 print("Iso Path:",isoPath)
 cdrom(si,vm_name="vm_max",iso_path=isoPath,datacenterName="ha-datacenter")
 powerOnVm(si,"vm_max",datacenterName="ha-datacenter")

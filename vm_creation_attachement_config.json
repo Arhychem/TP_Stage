@@ -1,6 +1,6 @@
 {
-    "RAM":"64",
-    "Disk":128,
-    "CD-ROM":"4",
-    "nCpus":"1"
+    "RAM":64,
+    "Disk":64,
+    "CD-ROM":"[datastore1] test/Core-5.4.iso",
+    "nCpus":1
 }
