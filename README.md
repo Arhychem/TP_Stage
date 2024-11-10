@@ -29,11 +29,9 @@ Les valeurs ovaPath2, tout comme ovaPath1 sont définies dans le fichier `config
               host=host,ovaPath=ovaPath1)
 ```
 Pour lancer le déploiement exécuter la commande suivante dans un terminal : <br>
-<code>
- python ova_deployement.py 
-</code>
+`python ova_deployement.py`
 ### <u>Question 8</u>
-<strong>Le clonage de la machine virtuelle lève l'exception suivante: </strong>
+<strong>Le clonage de la machine virtuelle en exécutant notre code `python vm_cloning.py` lève l'exception suivante: </strong>
 ```
 (vmodl.fault.NotSupported) {
    dynamicType = <unset>,
@@ -50,7 +48,7 @@ if not template.config.template:
         task = template.MarkAsTemplate()
         wait_for_task(task)
 ```
-<strong>Malheureusement même cette provoque une erreur: <strong>
+<strong>Malheureusement même cette approche provoque une erreur: <strong>
 ```
 Traceback (most recent call last):
   File "vm_cloning.py", line 89, in <module>
