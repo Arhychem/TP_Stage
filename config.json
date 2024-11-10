@@ -1,4 +1,5 @@
 {
     "vm_Base_name":"tinyWMTest",
-    "number_of_instances":2
+    "number_of_instances":2,
+    "number_of_clones":2
 }

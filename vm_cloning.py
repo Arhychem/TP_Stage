@@ -36,7 +36,6 @@ def vm_cloning(
         
     vmconf = vim.vm.ConfigSpec()
     template = getManagedObject(content,[vim.VirtualMachine],vm_name)
-    print(type(template))
     
     #Cette partie ne va probablement pas s'exécuter étant donné qu'il n'y a pas de cluster
     if datastoreClusterName:
@@ -70,6 +69,7 @@ def vm_cloning(
     clonespec = vim.vm.CloneSpec()
     clonespec.location = relospec
     clonespec.powerOn = powerOn
+    print(template)
 
     print(f"clonage de la VM {vm_name}...")
     task = template.Clone(folder=destinationFolder, name=f"{vm_name}_clone", spec=clonespec)
