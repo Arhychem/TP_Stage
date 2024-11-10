@@ -69,7 +69,10 @@ pyVmomi.VmomiSupport.NotSupported: (vmodl.fault.NotSupported) {
    faultMessage = (vmodl.LocalizableMessage) []
 }
 ```
-signifiant que l'opération n'est pas suportésur cet objet (la VM)
+signifiant que l'opération n'est pas supportée ur cet objet (la VM)
+####Alternative
+Comme alternative, on a crée une machine virtuelle à l'image de la première
+Pour cela on éxécute le code se trouvant dans `vm_cloning2.py`
 
 ### <u>Question 9</u>
 #### <u>Question 9.1:</u> Ici, il nous était demandé de créer une machine virtuelle vide avec des caractéristiques définies
@@ -80,7 +83,7 @@ test.py #C'est ce fichier qu'il faut utiliser pour lancer la création de la mac
 functions.py # Contient certaines fonctions importantes comme getdatacenter(content, name)
 vm_creation_attachement_config.json #Ce fichier contient les informations de configuration de la machine à créer
 ```
-##### <u>Exécution du code</u>
+##### Exécution du code
 Dans un terminal, tapper la commande `python test.py`
 
 #### <u>Question 9.2 et 9.3: </u> Ici, il nous était demandé de :
