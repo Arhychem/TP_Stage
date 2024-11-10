@@ -118,7 +118,7 @@ vmResourcePool = computeRes.resourcePool
 copy_vm(
     content,
     source_vm_name="tinyVM",
-    new_vm_name="vm_max_clone",
+    new_vm_name="tinyVM_clone",
     datacenter_name="ha-datacenter",
     resource_pool=vmResourcePool,
     datastore_name="datastore1"
