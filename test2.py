@@ -6,10 +6,15 @@ from functions import DisconnectSi
   
 with open('key.json') as json_auth_file:
     auth = json.load(json_auth_file)
-
 host = auth["host"]
 password = auth["pwd"]
 username = auth["user"]
+
+""" with open('vm_creation_attachement_config.json') as vm_params:
+    params = json.load(vm_params)
+vmRam = params["RAM"]
+vmDisk = params["Disk"]
+vmNcpus = params["nCpus"] """
 
 #Connexion à la plateforme ESXi
 

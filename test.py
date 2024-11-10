@@ -11,6 +11,12 @@ host = auth["host"]
 password = auth["pwd"]
 username = auth["user"]
 
+with open('vm_creation_attachement_config.json') as vm_params:
+    params = json.load(vm_params)
+vmRam = params["RAM"]
+vmDisk = params["Disk"]
+vmNcpus = params["nCpus"]
+
 #Connexion à la plateforme ESXi
 
 try:
@@ -43,6 +49,7 @@ print("Host resourcePool:",vmResourcePool)
 print("destinationHost:",destinationHost)
 print("number of host cpu:",numberOfCPU)
 print("available host ram:",availableRam,"mo")
-createAVm(destinationHost=destinationHost,datastoreName=datastoreName,guestName="vm_max",description="vm created for the question 9.1 od the subject",resPool=vmResourcePool)
+createAVm(destinationHost=destinationHost,datastoreName=datastoreName,guestName="vm_max",description="vm created for the question 9.1 od the subject",
+          resPool=vmResourcePool,vmRam=int(vmRam),nCpu=int(vmNcpus))
 DisconnectSi(si,container)
 

@@ -1,6 +1,6 @@
 import json
 from pyVmomi import vim
-from pyVim.connect import SmartConnect, Disconnect
+from pyVim.connect import SmartConnect
 from functions import DisconnectSi,getDatacenter
 from OvfHandler import OvfHandler
 import time

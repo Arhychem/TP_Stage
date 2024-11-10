@@ -3,8 +3,9 @@ from pyVmomi import vim
 from pyVim.task import WaitForTask
 
 #def createAVm(content:vim.ServiceInstanceContent,datacenterName:str,destinationHost:vim.HostSystem,datastoreName:str,guestName:str,description:str,resPool:vim.ResourcePool):
-def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,description:str,resPool:vim.ResourcePool):
-    config = createConfig(guestName=guestName,description=description,datastoreName=datastoreName)
+def createAVm(destinationHost:vim.HostSystem,datastoreName:str,guestName:str,
+              description:str,resPool:vim.ResourcePool,vmRam:int,nCpu:int):
+    config = createConfig(guestName=guestName,description=description,datastoreName=datastoreName,memory=vmRam,numCPUs=nCpu)
     """ 
     Déterminons le vm_folder correspondant au destinationHost
     ## Étapes:
