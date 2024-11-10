@@ -1,5 +1,7 @@
 {
     "vm_Base_name":"tinyWMTest",
     "number_of_instances":2,
-    "number_of_clones":2
+    "number_of_clones":2,
+    "ovaPath1":"/media/maxime/MAXIME/5GI The Last/Cloud/tinyVM.ova",
+    "ovaPath2":"http://menaud.fr/Cours/Cloud/TP/PS1/OVA-Linux/tinyVM.ova"
 }

@@ -65,7 +65,7 @@ def vm_cloning(
         datastore = getManagedObject(content, [vim.Datastore], real_datastore_name)
         
     # Définition des spécifications de relocation de la machine virtuelle, 
-    # Nous n'avons changé que le ResourcePool et le Datastore
+    # rien que le ResourcePool et le Datastore ont été changés
     relospec = vim.vm.RelocateSpec()
     relospec.datastore = datastore
     relospec.pool = resourcePool

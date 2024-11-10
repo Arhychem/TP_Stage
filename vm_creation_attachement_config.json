@@ -1,4 +1,5 @@
 {
+    "vm_name":"vm_max",
     "RAM":64,
     "Disk":64,
     "CD-ROM":"[datastore1] test/Core-5.4.iso",

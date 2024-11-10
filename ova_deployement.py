@@ -20,6 +20,8 @@ username = auth["user"]
 #paramètres de configuration
 vmBaseName = config["vm_Base_name"]
 numInstances = config["number_of_instances"]
+ovaPath1 = config["ovaPath1"]
+ovaPath2 = config["ovaPath2"]
 
 
 #Connexion à la plateforme ESXi
@@ -74,9 +76,7 @@ def deployOva(resourcePool:vim.ResourcePool,datastore:vim.Datastore,host:str,ova
     print("Starting deploy...")
     return ovf_handle.upload_disks(lease, host)
 for i in range(numInstances):
-   # deployOva(resourcePool=vmResourcePool,datastore=datastore,
-                #    host=host,ovaPath="http://menaud.fr/Cours/Cloud/TP/PS1/OVA-Linux/tinyVM.ova")
     print(f"Déploiement de la machine {i}")
     deployOva(resourcePool=vmResourcePool,datastore=datastore,
-              host=host,ovaPath="/media/maxime/MAXIME/5GI The Last/Cloud/tinyVM.ova")
+              host=host,ovaPath=ovaPath1)
 DisconnectSi(si,None)
